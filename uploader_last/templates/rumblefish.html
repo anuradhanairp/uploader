@@ -1,0 +1,5 @@
+<ul id="rumblefish">
+	{% for occasion in occasions %}
+	<li><a href="#" onclick="getplaylist({{ occasion.1 }}); return false;">{{ occasion.0 }}</a></li>
+	{% endfor %}
+</ul>

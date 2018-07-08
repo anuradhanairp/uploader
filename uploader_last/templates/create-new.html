@@ -1,0 +1,258 @@
+{% load i18n %}
+{% load library_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>{% trans "HighlightCam" %}</title>
+		<link rel="stylesheet" href="/site_media/css/reset.css" />
+		<link rel="stylesheet" href="/site_media/css/text.css" />
+		<link rel="stylesheet" href="/site_media/css/960.css" />
+		<link rel="stylesheet" href="/site_media/css/style.css" />
+		<script type="text/javascript" src="/site_media/js/jquery-1.7.2.min.js"></script> 
+		<script type="text/javascript" src="/site_media/js/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="/site_media/js/createmovie.js"></script>
+		<script type='text/javascript' src='/site_media/js/jwplayer.js'></script>
+		<script type='text/javascript' src="/site_media/js/jquery.scrollTo-1.4.2.js"></script>
+		<!--<script type='text/javascript' src="/site_media/js/jquery.dropdownReplacement-0.5.3.js"></script>-->
+		<!-- <link rel="stylesheet" href="/site_media/css/jquery.dropdownReplacement.css" media="screen"/>  -->
+		<link rel="stylesheet" href="/site_media/css/store-playlist.css" media="screen"/> 
+		<script type="text/javascript">
+			// var selFn = function(){
+			// 	var selected = $("#id_filter").dropdownReplacement("option").val();
+			// 	var obj = $.parseJSON(selected);
+			// 	var playlist;
+			// 	playlist = { file: obj.example_url, image: obj.thumbnail_url }
+			// 	jwplayer('mediaplayer').load(playlist);
+			// };
+			// $(document).ready(function() {
+			// 	$("#id_filter").dropdownReplacement({optionsDisplayNum: 5,onSelect : selFn});
+			// });
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#select-store").click(function(){
+					$("#lightbox-overlay").css('height', $(document).height());
+					$("#lightbox-overlay").css('display', 'block');
+					$("#lightboxmusic-bg").css('display', 'block');
+				})
+				$('#track-list > ul > li').click(function(){
+					$(this).siblings().removeClass('lightbox-music-selected');
+					$(this).addClass('lightbox-music-selected');
+				});
+
+			});
+		</script>
+	</head>
+	<body>
+		<div id="header">
+			<div class="container_16">
+				<div class="grid_8"><img src="/site_media/images/highlightCam.png" alt="HighlightCam" /></div>
+				<div class="grid_8 top_menu">{% trans "Hello" %} <a href="#">{{ username }}</a> | <a href="{% url logout %}">{% trans "Logout" %}</a></div>
+			</div>
+		</div>
+		<div id="navbar">
+			<div class="container_16">
+				<div class="grid_4 nav_left"><a href="{% url library %}"><span class="fnt-size"><< </span>{% trans "Go Back" %}</a></div>
+				<div class="grid_8 nav_center"><a href="#"></a></div>
+				<div class="grid_4 ">
+					<!-- <div class="nav_right-setting">{% trans "Settings" %}<a href="#"><img src="/site_media/images/icon-settings.png" alt="" style=" margin:0 10px 0 4px;" /></a></div> <div class="nav_right-create"><a href="#">{% trans "Create" %}</a></div> -->
+				</div>
+			</div>
+		</div>
+		<div id="container"><form action="{% url render %}" method="POST">{% csrf_token %}
+			<div id="container-element" class="container_16 mrg-btm">
+				<!-- <div class="grid_2 add-slide-icon ">
+					<img src="/site_media/images/add-slide.png" alt="" style="margin:0px 0 0 0;" />
+					<a id="add_slide" href="#" onclick="addslide(); return false;">{#% trans "Add Slide" %#}</a>
+				</div> -->
+				<div class="grid_16  separator">
+					<div class="at-the-game ">
+						<input type="hidden" name="title" id="title-input" />
+						<a class="current_title title" href="#" onclick="edit_title();return false;">{% trans "My movie name" %}</a>
+						<div id="title_div"></div>
+					</div>
+				</div>
+				<!-- <div class="grid_2 settings"> <a href="#">{#% trans "Settings" %#}</a><img src="/site_media/images/settings.png" alt="" align="right" /></div> -->
+				<div class="grid_4 grid_4_box2 drag-drop" id="drag-drop"> <div class="dotted-brd-grid_4_box2">{% include 'fileupload.html' %}</div></div>
+
+				<div id="sortable-clips">
+				{% for file in createmovie %}
+					<div class="grid_4 grid_4_box2 " id="clip-{{ file.id }}">
+						<div class="brd-grid_4_box2">
+							<input type="hidden" value="{{ file.id }}" name="files" />
+							<div class="title-create">
+								<span>
+									{% blocktrans with file.title|strip_title as title %}
+										{{ title }}
+									{% endblocktrans %}
+								</span>
+								<a class="drop-options" href="#" onclick="return false;">
+									<img src="/site_media/images/icon-side.jpg" alt=""  style="float:right; margin:12px 0 0 0;" />
+								</a>
+								<ul class="movie-options" style="display:none;position: absolute;background-color:white;">
+									<li class="add">{% trans "Add Caption" %}</li>
+									<li class="tag">{% trans "Tag People" %}</li>
+									<li class="trim">{% trans "Trim Clip" %}</li>
+									<li class="remove"><a href="#" onclick="removeclip({{ file.id }}); return false;">{% trans "Remove" %}</a></li>
+								</ul>
+							</div>
+							<div class="video"><img src="{{ file.thumbnail }}" /></div>
+							<div class="size">{% blocktrans with file.size as size %}{{ size }} Mb{% endblocktrans %}</div>
+						</div>
+					</div>
+				{% endfor %}
+				</div>
+
+				<div class="grid_4 grid_4_box2">
+					<div class="blue-brd-grid_4_box2">
+						<div class="title-create-selected">{% trans "Selected theme:" %}</div>
+						<div class="video"><div id='mediaplayer'></div><!-- <img src="/site_media/images/neon.jpg" /> --></div>
+						<!-- <div class="change"><div class="styled-select">{% blocktrans with form.filter as filter %}{{ filter }}{% endblocktrans %}</div> --><!-- <img src="/site_media/images/down-arrow.jpg" alt="" style="margin:0 0 0 75px;" /> --><!-- </div> -->
+						<div class="change">
+							<div class="styled-select">
+								<input type="hidden" id="filter" name="filter" value="{{ default_theme }}" />
+								<a id="theme_change" href="#">Change Theme</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid_4 grid_4_box2 drag-drop" id="drag-drop-audio"> 
+					<div class="blue-brd-grid_4_box2">
+						<div class="dotted-brd-grid_4_box2"><div class="background_pic"></div><div class="dragging">{% include 'audiouploader.html' %}<div id="rumble-player"></div></div>
+							<div id="select-store" class="change">
+								<input type="hidden" id="rumblefish_media_id" name="rumblefish_media_id" />
+								<input type="hidden" id="rumblefish_preview_url" />
+								<a href="#"><label style="color: #BC000E;">{% trans "Select from our store" %}</label>
+									<img src="/site_media/images/down-arrow.jpg" alt="" style="margin:0 0 0 40px; width:13px;" />
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="grid_4 grid_4_box2">
+					<div class="blue-brd-grid_4_box2">
+						<div class="title-create-selected">Background music:</div>
+						<div class="video"><img src="/site_media/images/jagger.jpg" /></div>
+						<div class="change">Change Soundtrack<img src="/site_media/images/down-arrow.jpg" alt="" style="margin:0 0 0 50px;" /></div>
+					</div>
+				</div> -->
+
+				<div class="grid_16  separator">
+					<div class="create-my-movie-now "><a href="#"><input id="submit-movie" type="submit" value="CREATE MY MOVIE NOW" />
+					</a></div>
+				</div>
+				<div class="clear"></div>
+				<!-- <p class="black-italic"><span class="color-italic">{% trans "hint!" %} </span>{% blocktrans %}Clicking “Create” will take you back to your library and uploading will continue in the background{% endblocktrans %}</p> -->
+				<div id="window-alert">
+					<p class="question"> {% trans "Clips too big ? Upload taking too long ?" %} </p>
+					<p class="answer">{% trans "We have desktop software available for" %}<span class="color-bold"> {% trans "Windows" %} </span>{% trans "and" %} <span class="color-bold">{% trans "Mac" %} </span>{% trans "to help you upload your videos more easily." %} <br />
+					{% trans "Check out our upload tools page for more information and downloads." %}  
+					</p>
+				</div>
+				<div class="container_16">
+					<div class="grid_16">
+						<div id="footer">
+							<div class=" grid_6  copyright">
+								<a href="#"><img src="/site_media/images/logo.png" /></a><br />
+								<p>{% trans "Copyright &copy; 2012 HighlightCam Inc." %}</p>
+							</div>
+							<div class=" footer-links">
+								<div class="grid_2 menu">
+									<ul>
+										<li><a href="#">{% trans "About" %}</a></li>
+										<li><a href="#">{% trans "Contact" %}</a></li>
+										<li><a href="#">{% trans "Press" %}</a></li>
+									</ul>
+								</div>
+								<div class="grid_2 menu">
+									<ul>
+										<li><a href="#">{% trans "Forum" %}</a></li>
+										<li><a href="#">{% trans "Support" %}</a></li>
+										<li><a href="#">{% trans "FAQ" %}</a></li>
+									</ul>
+								</div>
+								<div class="grid_5 communities">
+									<ul>
+										<li><a href="#"><img src="/site_media/images/icon-twitter.jpg" alt="" style="width:18px; margin:-0px 14px 0 10px;"/>{% trans "Follow @highlightcam" %}</a></li>
+										<li><a href="#"><img src="/site_media/images/icon-fb.jpg" alt="" style="width:18px;margin:0px 14px 0 10px;"/>{% trans "Join us on Facebook" %}</a></li>
+										<li><a href="#"><img src="/site_media/images/icon-news.jpg" alt="" style="width:18px;margin:0px 14px 0 10px;"/>{% trans "Subscribe to our newsletter" %}</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form></div>
+		<div id="lightbox-overlay" style="display:none;"></div>
+		<div id="lightbox-bg" style="display:none;">
+			<div id="lightbox-theme">
+				<div id="lightbox-wrapper">
+					<div class="outermost-container">
+						{% for detail, title in themes %}
+								<div class="lightbox-theme">
+									<input type="hidden" class="theme-detail" value="{{ detail }}" />
+									<div class="lightbox-video"><img width="212px" height="118px" src="{{ detail|derive_thumb_url }}" alt=""/></div>
+									<div class="lightbox-heading"> {{ title }}</div>
+									<ul>
+										<!-- <li><a href="#">Description Bullet Number 1</a></li>
+										<li><a href="#">This is a second bit</a></li> -->
+
+									</ul>
+								</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div id="submit">
+					<div id="cancel">
+						<a id="close-theme" href="#"><img src="/site_media/images/cancel.jpg"  style="margin:10px 10px;"/></a>
+					</div>
+					<div id="done"><a href="#" id="done-theme">DONE</a></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="lightboxmusic-bg" style="display:none"> 
+			<div id="lightbox-music">
+				<div id="lightbox-wrapper-music">
+					<div id="category">Category</div>
+					<div id="tracks">Track</div>
+					<div id="time">Time</div>
+					<div id="category-list">
+						<ul>
+							{% for name, id in occasions %}
+								<li id="rumblefish_occasion_{{ id }}"><a href="#" onclick="getsubcategory(this,{{ id }}); return false;">{{ name }}</a></li>
+							{% endfor %}
+						</ul>
+					</div>
+					<div id="outermost-container">
+						<div id="outer-container">
+							<div id="track-list">
+								<ul>
+									<li style="padding-top: 100px; font-size: 20px; padding-left: 50px; color: gray;">SELECT YOUR TRACK</li>
+									<!-- {% for track in defaultplaylist %}
+										<li class="{% cycle 'grey-bg' 'white-bg' %}">
+											<input type="hidden" class="track-id" value="{{ track.id }}" />
+											<input type="hidden" id="{{ track.id }}" value="{{ track.preview_url }}"></input>
+											<div class="track"><a href="#" onclick="add_sample_player({{ track.id }})"><img src="/site_media/images/arrrow.png" alt="" style="margin:10px 0 0 10px; float:left;"/></a> <p>{{ track.title }}</p></div>
+											<div class="time">{{ track.duration }}</div>
+										</li>
+									{% endfor %} -->
+								</ul>
+
+							</div>
+						</div>
+					</div>  
+				</div> 
+				<div id="sample_player"></div>
+				<div class="submit-music">
+					<div id="cancel-music">
+						<a id="close-music" href="#"><img src="/site_media/images/cancel.jpg"  style="margin: 10px 10px;"/></a>
+					</div>
+					<div id="done"><a href="#" id="done-music">DONE</a></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

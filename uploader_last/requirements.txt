@@ -1,0 +1,11 @@
+Django==1.3
+boto==2.3.0
+distribute==0.6.19
+ipython==0.12.1
+wsgiref==0.1.2
+envoy==0.0.2
+SQLAlchemy==0.7.7
+celery-with-beanstalk==2.5
+django-celery==2.5.5
+requests==0.12.1
+PyYAML==3.10

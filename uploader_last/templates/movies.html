@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>My Movies</title>
+{% endblock %}
+
+{% block content %}
+	{% for movie, movie_status in movielist %}
+		{% ifequal movie_status.2 3 %}
+			{{ movie.url }} (<b>{{ movie_status.0 }}</b> seconds remaining...)<br />
+		{% endifequal %}
+		{% ifequal movie_status.2 2 %}
+			{{ movie.url }} (<b>{{ movie_status.0 }}</b> seconds remaining...)<br />
+		{% endifequal %}
+		{% ifequal movie_status.2 1 %}
+			{{ movie.url }} (<b>{{ movie_status.0 }}</b> seconds remaining...)<br />
+		{% endifequal %}
+		{% ifequal movie_status.2 0 %}
+			<a href="{{ movie.url }}">{{ movie.url }}</a><br />
+		{% endifequal %}
+	{% endfor %}
+	<a href="{% url library %}">Go to library</a><br />
+	<a href="{% url uploadify %}">Upload new file</a><br />
+	<a href="{% url render %}">Create your movie</a><br />
+	<a href="{% url logout %}">logout</a>
+{% endblock %}

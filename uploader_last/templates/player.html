@@ -1,0 +1,22 @@
+{% load library_tags %}
+
+<input type="button" value="x" class="player_hide" style="float:right;margin-top: 8px" onclick="hide_palyer()"></input>
+<div class="current_title title">{{ library_file.title|strip_title }}</div><div id="title_div"></div>
+
+<script type='text/javascript' src='/site_media/js/jwplayer.js'></script>
+
+<div class="video"><div id='mediaplayer'></div></div>
+
+<script type="text/javascript">
+  jwplayer('mediaplayer').setup({
+    'flashplayer': '/site_media/images/player.swf',
+    'id': 'playerID',
+    'width': '435',
+    'height': '248',
+    'file': '{{ library_file.url }}',
+    'image': '{{ library_file.thumbnail }}'
+  });
+</script>
+
+<div class="desc expandable" style="line-height:1.5;text-align: justify;"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dot eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor. </p></div>
+<div class="share">&nbsp;</div>

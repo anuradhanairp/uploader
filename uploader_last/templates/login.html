@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link href="/site_media/css/login.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+<div id="login">
+        
+        <form id="login1" action="{% url login %}" method="POST">
+          <div>
+            <label for="email" title="Email">Email address</label><br />
+            <input id="email" name="email" size="25"  />
+          </div>
+          
+          <div class="clear"></div>
+          <div>
+            <label for="password" title="password">Password</label><a href="#">Forgot password?</a><br />
+            <input type="password" id="password" name="password" size="35"    />
+          </div>
+          <div class="clear"></div>
+          <div>
+            <input name="remember" type="checkbox" value="" style="width: 4px; margin: 25px 52px 0px 0px;float: right;" />
+            <label style="margin:-17px 0px 5px 20px;">Remember me on this computer</label>
+          </div>
+          <div class="clear"></div>
+         
+         
+          <br />
+          <div>
+            <input class="submitbutton" type="submit" name="submit" value="" />
+          </div>
+          <div class="clear"></div>
+         
+        </form>
+      </div>
+</body>
+</html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>HighlightCam - Turn great moments into epic movies</title>
+		<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+		<link rel="stylesheet" href="site_media/css/main.css" />
+		<link href="/site_media/css/login.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="site_media/js/jquery-1.7.2.min.js"></script>
+		<script src="http://cloud.github.com/downloads/malsup/cycle/jquery.cycle.all.2.74.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(function(){
+				demo_videos = [
+					{ file: "new_demos/web_HighlightCam_05.mp4",
+					image: "new_demos/web_HighlightCam_05.jpg"},
+
+					{ file:"new_demos/sparta.270.2.mp4",
+					image:"new_demos/sparta.270.2.jpg"},
+
+					{ file:"new_demos/old_timey.270.2.mp4",
+					image:"new_demos/old_timey.270.2.jpg"},
+
+					{ file:"new_demos/blackwhite.270.2.mp4",
+					image:'new_demos/blackwhite.270.2.jpg'},
+
+					{ file:"new_demos/Tron.270.mixed.2.mp4",
+					image:'new_demos/Tron.270.mixed.mp4.2.jpg'},
+
+					{ file:"new_demos/cartoon.270.2.mp4",
+					image:'new_demos/cartoon.270.2.jpg'}
+
+				];
+				devices = ["iphone","android"];
+				var stretch_mode = $.browser.msie ? "exactfit" : "fill";
+				for (var i=0;i<demo_videos.length;i++) {
+					for (var j=0;j<devices.length;j++) {
+
+						var container_id = devices[j]+"mediaplayer"+i;
+						$('#ss_'+devices[j]+' .videoss').append('<div class="slide"><div id="'+container_id+'"></div></div>');
+						jwplayer(container_id).setup({
+							flashplayer: "/site_media/jwplayer/player.swf",
+							file: 'mp4:'+demo_videos[i]["file"],
+							'width': '509',
+							'height': '340',
+							'image':'http://d328q3hjqwsrhv.cloudfront.net/'+demo_videos[i]["image"],
+							//'bufferlength':7,
+							'stretching':stretch_mode,
+							'skin': 'site_media/jwplayer/glow.zip',
+							'streamer':'rtmp://s3vjrv2gonzejt.cloudfront.net/cfx/st/',
+							//'provider':'streamer',
+							'modes': [
+								{type: 'flash', src: '/site_media/jwplayer/player.swf'},
+								{type: 'html5', config: {'file':"http://d328q3hjqwsrhv.cloudfront.net/"+demo_videos[i]["file"],'provider':'video'} }
+							],
+							'events':{
+								onPlay: pauseSlideshows,
+								onBuffer: pauseSlideshows,
+								onPause: resumeSlideshows,
+								onComplete: resumeSlideshows
+							}
+						});
+					}
+				}
+
+				$('#ss_iphone .videoss').cycle({
+					fx:'scrollHorz',
+					timeout:10000,//0,
+					pager: '#ss_iphone .ssnav'
+				});
+				$('#ss_android .videoss').cycle({
+					fx:'scrollHorz',
+					timeout:10000,//0,
+					pager: '#ss_android .ssnav'
+				});
+
+				$(".featured .dwd_opt").css('opacity','0');
+				$(".featured .dwd").hover(function(){
+					$(this).children('.dwd_opt').animate({opacity:1})
+				},function(){
+						$(this).children('.dwd_opt').animate({opacity:0})
+				})
+
+
+			})
+			function pauseSlideshows() {
+				$('#ss_iphone .videoss').cycle('pause');
+				$('#ss_android .videoss').cycle('pause');
+			}
+			function resumeSlideshows() {
+				$('#ss_iphone .videoss').cycle('resume');
+				$('#ss_android .videoss').cycle('resume');
+			}
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+
+				$("#login_link").click(function(ev) {
+					$("#register").hide();
+					ev.preventDefault();
+					if ($("#login").css('display') == 'none') {
+						$("#login").show();
+					} else {
+						$("#login").hide();
+					}
+					return false;
+				});
+
+				$("#register_link").click(function(ev) {
+					$("#login").hide();
+					ev.preventDefault();
+					if ($("#register").css('display') == 'none') {
+						$("#register").show();
+					} else {
+						$("#register").hide();
+					}
+					return false;
+				});
+
+				$(document).click(function() {
+				    $("#login").hide();
+				});
+				$(document).click(function() {
+				    $("#register").hide();
+				});
+				$("#login").click(function(e) {
+					e.stopPropagation();
+					// return false;
+				});
+				$("#register").click(function(e) {
+					e.stopPropagation();
+					// return false;
+				});
+
+				function validateEmail(sEmail) {
+
+					var filter = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+					if (filter.test(sEmail)) {
+						return true;
+					}
+					else {
+						return false;
+					}
+				}
+
+				function clear_form_elements(ele) {
+
+				    $(ele).find(':input').each(function() {
+				        switch(this.type) {
+				            case 'password':
+				            case 'select-multiple':
+				            case 'select-one':
+				            case 'text':
+				            case 'textarea':
+				                $(this).val('');
+				                break;
+				            case 'checkbox':
+				            case 'radio':
+				                this.checked = false;
+				        }
+				    });
+
+				}
+
+				$("input").focus(function(){
+                	$(".error").html("");
+                });
+				$("#login_button").click(function(e) {
+					e.preventDefault();
+					var sEmail = $('#hlcam_email').val();
+					var sPassword = $("#password").val();
+					if (validateEmail(sEmail)) {
+						if($("#password").val()=="")
+						{
+							$("#error_login_password").html("Password Field Empty");
+							// alert("Enter password");
+						}
+						else
+						{
+							clear_form_elements(this.form);
+							$.ajax({
+								url:"/login/",
+								type:"POST",
+								data:{email:sEmail,password:sPassword},
+								success:function(message){
+									if(message=="true")
+									{
+										window.location="/library/";
+									}
+									else
+									{
+										$("#error_login_id_password").html("Invalid Login id/ Password");
+										// alert("Invalid Login id/ Password");
+									}
+								},
+							});
+						}
+					}
+					 else {
+					 	$("#error_login_email").html("Invalid Email Address");
+					 	// alert('Invalid Email Address');
+					 	clear_form_elements(this.form);
+						// e.preventDefault();
+					}
+					// e.preventDefault();
+					// return false;
+				});
+				$("#register_button").click(function(e) {
+					e.preventDefault();
+					var sEmail = $('#register_email').val();
+					var pwd = $("#register_password").val();
+					if (validateEmail(sEmail)) {
+						if($("#register_password").val()=="")
+						{
+							$("#error_confirm_password").html("Password Fields Empty");
+							// e.preventDefault();
+							// alert("Enter password");
+						}
+						else if($("#register_password").val()==$("#confirm_password").val())
+						{
+							clear_form_elements(this.form);
+							// console.log(pwd);
+							$.ajax({
+								url:"/register/",
+								type:"POST",
+								data:{email:sEmail,password:pwd},
+								success:function(message){
+									alert(message);
+								},
+							});
+							$("#register").hide();
+						}
+						else
+						{
+							$("#error_confirm_password").html("Password mismatch");
+							// alert("Password mismatch");
+							// e.preventDefault();
+						}
+					}
+					else
+					{
+						$("#error_register_email").html("Invalid Email Address");
+						// alert('Invalid Email Address');
+						clear_form_elements(this.form);
+						// e.preventDefault();
+					}
+					
+					// e.preventDefault();
+					// return false;
+				});
+			});
+		</script>
+		<script type="text/javascript" src="site_media/js/jwplayer.js"></script>
+		<script type="text/javascript">
+
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-1908165-3']);
+			_gaq.push(['_setDomainName', '.highlightcam.com']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+
+		</script>
+	</head>
+
+	<body>
+	<div id="fb-root"></div>
+	<form name="fbloginform" id="fbloginform" method="post" action="http://usdemo4.highlightcam.com/fb/login/">
+	<input type="hidden" value="" name="fbid" id="fbid">	
+	<input type="hidden" value="" name="fbemail" id="email">
+	<input type="hidden" value="" name="access_token" id="access_token">
+	</form>
+	<script type="text/<span class="><!--mce:0--></script>
+	<script>
+	var x = '';
+	// var  fbid = '';
+	var email = '';
+	        window.fbAsyncInit = function() {
+	          FB.init({
+	            appId      : '395746413811877',
+	            status     : true, 
+	            cookie     : true,
+	            xfbml      : true,
+	          });
+	          FB.Event.subscribe('auth.login', function(response) {
+	        // login();
+	        FB.login(function(response) {
+	         if (response.authResponse) {
+	           
+	           
+	            var access_token =   FB.getAuthResponse()['accessToken'];
+	             // var fbid = FB.getAuthResponse()['userID']
+	             // var email = FB.getAuthResponse()['email']
+	            // alert(email);
+
+	           // alert("myObject is " + response.toSource());
+	           // window.location.replace("/fb/login?access_token="+access_token);
+	           FB.api('/me', function(response) {
+	               //x=2 ;
+	               
+	              //alert("myObject is " + response.toSource());
+	              // alert("myObject is " + response.toSource());
+	              // alert('inside'+x);
+	              var fbid = response.id;
+	              email = response.email;
+	              $('input[name=fbid]').val(fbid);
+	              $('input[name=email]').val(email);
+	              $('input[name=access_token]').val(access_token);
+	              document.fbloginform.submit();   
+	       /*       $.ajax({ 
+	              url:'/fb/login/',
+	              type:'POST',
+	              data:{access_token:access_token,fbid:fbid,email:email},
+	              success: function(msg){ 
+	                  alert('facebook login sucess'); 
+	                  window.location="/library/";
+	               }
+	             });
+			*/
+
+
+	             });
+	           // alert(fbid);
+	           // alert('out side'+x);
+	           // alert("fbid"+fbid);
+	           // window.location.replace("/fb/login?access_token="+access_token+"&fbid="+fbid+"&email="+email);
+	           // console.log('token'+access_token)
+	           // window.location="/library/";
+	            
+	         };
+	       
+	      });
+	      });
+	      FB.Event.subscribe('auth.logout', function(response) {
+	        logout();
+	      });
+	      FB.getLoginStatus(function(response) {
+	        if (response.status === 'connected') {
+	            greet();
+	        }
+	        
+	      });
+	        };
+	// function login(){
+	//    FB.api('/me', function(response) {
+	//       alert('hiii');
+	//       // alert('You have successfully logged in, '+response.name+"!");
+	//       alert("myObject is " + response.toSource());
+	//       // alert(response.email);
+	//       // uname = response.name.split(' ')[0];
+	//       // email=response.email;
+	//       if (response.authResponse) {
+	//        var access_token =   FB.getAuthResponse()['accessToken'];
+	//        alert("anus"+access_token);
+	//       }
+	//       // window.location.replace("/fb/login/");
+	//    });
+
+	 
+
+	// }
+	function logout(){
+	   
+	}
+	function greet(){
+	   FB.api('/me', function(response) {
+	      // alert('Welcome, '+response.name+"!");
+	      
+	      // var uname=response.name.replace(" "."");      
+	      //window.location="/Webtv/checkuser"
+	      
+	   });
+	}
+
+	(function() {
+	   var e = document.createElement('script');
+	   e.type = 'text/javascript';
+	   e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+	   e.async = true;
+	   document.getElementById('fb-root').appendChild(e);
+	}());
+	</script>
+	<fb:login-button autologoutlink='true' perms='email'></fb:login-button>
+	<span id="login-logout"></span>
+		<section class="bodysec">
+			<section class="wrapper">
+				<header class="header">
+					<div id="header-inner">
+						<div class="logo-bg">
+							<div id="logo-red"><a href="#"><img src="/site_media/images/logo-red.png"/></a></div>
+						</div>
+						<div id="signin-red">
+							<div id="create" style="display:none;"><a href="{% url render %}"  > <img src="/site_media/images/create.png" /> </a> </div>
+							<span class="or" style="display:none">or </span> <span style="margin-left:450px; width: 140px;" class="login"><a id="login_link" href="#" style="padding-right: 10px;">LOGIN</a><a id="register_link" href="#">REGISTER</a></span>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</header>
+				<section class="featured">
+					<section class="featuredc">
+					<h1>Turn great moments into epic movies.</h1>
+					<div class="dwd"> 
+						<a class="dwa"><img src="site_media/images/download.png" alt=""></a>
+					    <div class="dwd_opt">
+					    	<a href="http://itunes.apple.com/us/app/highlightcam-social-video/id476510123?ls=1&mt=8" class="ip">Get it on the iPhone</a> 
+					    	<a href="https://market.android.com/details?id=com.highlightcamv1" class="ad">Get it on the Android</a>
+					    </div>
+					</div>
+					<section class="phoneshow">
+						<div class="phoneshowc">
+							<div class="phoness" id="ss_iphone">
+								<div class="videoss"> </div>
+								<nav class="ssnav"></nav>
+							</div>
+							<div class="phoness" id="ss_android" style="display:none">
+								<div class="videoss"> </div>
+								<nav class="ssnav"></nav>
+							</div>
+						</div>
+						<ul class="phonenav">
+							<li><a class="iphone act" onclick="$('.phonenav a.act').removeClass('act'); $(this).addClass('act'); $('#ss_iphone').fadeIn(500); $('#ss_android').fadeOut(300);">iPhone</a></li>
+							<li><a class="android" onclick="$('.phonenav a.act').removeClass('act'); $(this).addClass('act'); $('#ss_iphone').fadeOut(300); $('#ss_android').fadeIn(500);">Android</a></li>
+						</ul>
+					</section>
+				</section>
+			</section>
+			<section class="container">
+				<section class="containerc">
+					<section class="hmhighlight">
+						<hgroup>
+						<h1 class="h1">What is HighlightCam?</h1>
+						<h2 class="h2"><a href="#" onclick="$('#howtouse').show(); $('#howtouse').height($(document).height())">- See how easy HighlightCam is to use -</a></h2>
+						</hgroup>
+						<ul class="featureul">
+							<li class="shoot">
+								<h3>Shoot in real-time or select videos from your library.</h3>
+							</li>
+							<li class="music">
+								<h3>Add music to your film from your library or ours.</h3>
+							</li>
+							<li class="share">
+								<h3>Share what's happening directly to Twitter, Facebook and email.</h3>
+							</li>
+						</ul>
+					</section>
+				</section>
+			</section>
+			<footer class="footer">
+				<div class="footerc">
+					<div class="availability">
+						<a href="http://itunes.apple.com/us/app/highlightcam-social-video/id476510123?ls=1&mt=8" class="iphone">Available on the iPhone App Store</a> 
+						<a href="https://market.android.com/details?id=com.highlightcamv1" class="android">Available on Android</a>
+					</div>
+					<div class="testimonials">
+						<div class="clr"></div>
+					</div>
+					<nav class="fnav">
+						<ul class="fnavul">
+							<li><a href="/">Home</a></li>
+							<li><a href="/about/">About</a></li>
+							<li><a href="/contact/">Contact</a></li>
+							<li><a href="/jobs/">Jobs</a></li>
+							<li><a href="/faq/">FAQ</a></li>
+						</ul>
+						<ul class="fsocial">
+							<li><a href="http://twitter.com/highlightcam" class="tw">Twitter</a></li>
+							<li><a href="http://facebook.com/highlightcam" class="fb">Facebook</a></li>
+						</ul>
+						<p class="copy">HighlightCam, Inc. All Rights Reserved</p>
+						<div id="mbadge" style="float: right;position: relative;right: -400px;">
+							<a href="http://mixpanel.com/f/partner" target="_blank">
+								<img src="http://mixpanel.com/site_media/images/partner/badge_light.png" alt="Real Time Web Analytics">
+							</a>
+						</div>
+						<div class="clr"></div>
+					</nav>
+				</div>
+			</footer>
+		</section>
+		<!-- </section> -->
+		<div class="popup" id="howtouse" style="display:none">
+			<div class="popupc">
+				<h2>Learn About HighlightCam</h2>
+				<a class="clx" onclick="$('.popup').hide()">X</a>
+				<div class="vid"> 
+					<!-- START OF THE PLAYER EMBEDDING TO COPY-PASTE --> 
+					<div id="mediaplayerp">JW Player goes here</div>
+					<script type="text/javascript">
+					jwplayer("mediaplayerp").setup({
+					flashplayer: "site_media/jwplayer/player.swf",
+					file: "http://media.highlightcam.s3.amazonaws.com/new_demos/web_HighlightCam_05.mp4",
+					'width': '640',//''640',
+					'height': '358',//'340',
+					image: "http://media.highlightcam.s3.amazonaws.com/new_demos/web_HighlightCam_05.jpg",
+					'skin': 'site_media/jwplayer/glow.zip',
+					'autostart':true
+					});
+					</script>
+					<!-- END OF THE PLAYER EMBEDDING --> 
+				</div>
+			</div>
+		</div>
+
+		<div id="login" style="display:none;">
+        <img class="indicator" src="/site_media/images/arrow_login.png" />
+        <form id="loginform" action="" method="">
+        {% csrf_token %}
+        <div><label class="error" id="error_login_id_password"></label></div>
+          <div>
+            <label for="hlcam_email" title="Email">Email Address:</label>
+            <input id="hlcam_email" name="hlcam_email" size="25"  />
+          </div>
+		<div class="clear"></div>
+        <div><label class="error" id="error_login_email"></label></div>
+          
+          <br/>
+          <div>
+            <label for="password" title="password">Password:</label>
+            <input type="password" id="password" name="password" size="35"    />
+            <a href="#">Forgot password?</a>
+          </div>
+          <div class="clear"></div>
+          <div><label class="error" id="error_login_password"></label></div>
+          <br />
+          <div>
+            <input id="login_button" class="submitbutton" type="submit" name="submit" value="" />
+          </div>
+          <div class="clear"></div>
+         
+        </form>
+      </div>
+
+
+<!--register section-->
+
+	<div id="register" style="display:none;">
+		<img class="indicator" src="/site_media/images/arrow_login.png" />
+        <form id="registerform" action="" method="">
+          <div>
+            <label for="email" title="Email">Email Address:</label><br />
+            <input id="register_email" name="register_email" size="25"  />
+          </div>
+          <div class="clear"></div>
+          <div><label class="error" id="error_register_email"></label></div>
+          
+          <div class="clear"></div>
+          <div>
+            <label for="password" title="password">Password:</label>
+            <input type="password" id="register_password" name="password1" value="" size="35"    />
+          </div>
+          <div class="clear"></div>
+           <div>
+            <label for="confirm-password" title="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm_password" name="password2" size="35"    />
+          </div>
+          <div class="clear"></div>
+         <div><label class="error" id="error_confirm_password"></label></div>
+         
+          <br />
+          <div>
+            <input id="register_button" class="submitbutton" type="submit" name="submit" value="" />
+          </div>
+          <div class="clear"></div>
+         
+        </form>
+	</div>
+
+
+	</body>
+</html>

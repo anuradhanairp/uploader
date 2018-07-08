@@ -1,0 +1,96 @@
+div.dropdownOpts {
+  	border: 1px solid #3298c0;
+	background-color:#FFF;
+	display:none;
+	position:absolute;
+	overflow-y:auto;
+	overflow-x:hidden;
+	z-index:50;
+	font-family:'arialbd';
+	text-indent:16px;
+	color:#657275;
+	font-size:14px;
+	width:218px !important;
+	margin-left: -12px !important;
+	height:150px !important;
+}
+
+a.dropdownOpt {
+	margin:0;
+	list-style:none;
+	display:block;
+	white-space:nowrap;
+	text-decoration:none;
+	font-family:'arialbd';
+	color:#657275;
+	font-size:14px;
+	cursor:pointer;
+	z-index: 100;
+  	text-align:left;
+  	height:30px;
+  	line-height:30px;
+}
+
+.optgroup div {
+	font-weight:bold;
+}
+.optgroup a.dropdownOpt {
+	padding-left:10px;
+}
+
+div.opt-theme-classic a.dropdownOpt:hover, 
+div.opt-theme-classic a.dropdownOpt.selectedOpt {
+	background-color:#0A246A;
+}
+
+div.opt-theme-xp a.dropdownOpt:hover, div.opt-theme-zuneNOIR a.dropdownOpt:hover,
+div.opt-theme-xp a.dropdownOpt.selectedOpt, div.opt-theme-zuneNOIR a.dropdownOpt.selectedOpt {
+	background-color:#316AC5;	
+}
+
+a.dropdownOpt:hover {
+	font-family:'arialbd';
+	color:#657275;
+	text-align:left;
+	font-size:14px;
+	border:none;
+	background:#3298c0;
+}
+
+.dropdown {
+	text-overflow:ellipsis;
+	overflow:hidden;
+	border-style:solid;
+	cursor:pointer;
+	text-align:left;
+  	text-decoration:none;
+	-webkit-user-select:none; 
+	-k-user-select:none; 
+	-moz-user-select:moz-none; 
+  user-select:none;
+}
+
+.dd-theme-classic, .dd-all {
+	background:#FFFFFF url('/site_media/images/down-arrow2.jpg') no-repeat scroll 100% center;
+	border-color:#404040 #D4D0C8 #D4D0C8 #404040 !important;
+	font-family:'arialbd';
+	color:#657275;
+	text-align:left;
+	font-size:14px;
+	border:none;
+	height: 30px;
+    width: 180px !important;
+	padding:1px 15px 1px 1px;
+}
+
+.dd-theme-xp, .dd-theme-zuneNOIR {
+	background:#FFFFFF url('arrow-ff-xp.png') no-repeat scroll 100% center !important;
+	border-color:#7f9db9 !important;
+	padding: 1px;
+	padding:1px 15px 1px 1px;
+}
+
+/* browser hacks */
+.dd-msie7 {
+	padding:1px 4px 1px 1px;
+}

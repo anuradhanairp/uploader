@@ -1,0 +1,27 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		if(jQuery.browser.msie) {
+			jQuery('#audio-uploader').html('<div id="audioupload_msie" class="add-slide-sub shadow">Audio</div>');
+			var uploader = new qq.FileUploaderBasic({
+			    // pass the dom node (ex. $(selector)[0] for jQuery users)
+			    element: document.getElementById('audioupload_msie'),
+			    // path to server-side upload script
+			    action: '/audio_upload/',
+			    allowedExtensions: ['aif', 'au', 'm4a', 'm4p', 'm4r', 'mp3', 'mpa', 'ogg', 'ra', 'wav', 'wma'],
+			});
+		} else {
+			var uploader = new qq.FileUploader({
+			    // pass the dom node (ex. $(selector)[0] for jQuery users)
+			    element: document.getElementById('audio-uploader'),
+			    // path to server-side upload script
+			    action: '/audio_upload/',
+			    allowedExtensions: ['aif', 'au', 'm4a', 'm4p', 'm4r', 'mp3', 'mpa', 'ogg', 'ra', 'wav', 'wma'],
+			});
+		}
+	});
+</script>
+<div id="audio-uploader">
+    <noscript>
+        <p>Please enable JavaScript to use file uploader.</p>
+    </noscript>
+</div>

@@ -1,0 +1,37 @@
+
+{% load library_tags %}
+<!-- <script type='text/javascript' src="/site_media/js/pagination.js"></script>
+
+<div id="track" class="pdn">
+
+  <div class="back_to_category"><a href="#" class="bg-a" onclick="backToAll(); return false;">Back to all categories</a> <a href="#" class="btn" onclick="selectAlbum(); return false;">Done</a></div>
+ 
+  <ul id="holder">
+  	{#% for album in rumblefish_playlist %#}
+  		<li class="{#% cycle 'marg-left' 'marg-right' %#}">
+        <input type="hidden" name="album" value={#{ album.id }#} />
+  			<a href="{#{ album.preview_url }#}"></a><span>{#{ album.title|strip_rumblefish_title }#}<p>{#{ album.artist|strip_rumblefish_title }#}</p></span>
+  		</li>
+  	{#% endfor %#}
+</ul> 
+</div> -->
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#track-list > ul > li').click(function(){
+			$(this).siblings().removeClass('lightbox-music-selected');
+			$(this).addClass('lightbox-music-selected');
+		});
+
+	});
+</script>
+<ul>
+	{% for track in rumblefish_playlist %}
+		<li class="{% cycle 'grey-bg' 'white-bg' %}">
+			<input type="hidden" class="track-id" value="{{ track.id }}" />
+			<input type="hidden" class="track_url" id="{{ track.id }}" value="{{ track.preview_url }}"></input>
+			<div class="track"><a href="#" onclick="add_sample_player({{ track.id }})"><img src="/site_media/images/arrrow.png" alt="" style="margin:10px 0 0 10px; float:left;"/></a> <p>{{ track.title|strip_rumblefish_title }}</p></div>
+			<div class="time">{{ track.duration }}</div>
+		</li>
+	{% endfor %}
+</ul>

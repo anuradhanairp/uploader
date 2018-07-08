@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Render</title>
+{% endblock %}
+
+{% block content %}
+	<form action="{% url test %}" method="POST">
+		{% csrf_token %}
+		{{ form.errors }}
+		{{ form.as_p }}
+		<input type="submit" value="Render" />
+	</form>
+	{% if message %}
+		<p style="color:red;">{{ message }}</p>
+	{% endif %}
+	<a href="{% url library %}">Go to library</a><br />
+	<a href="{% url uploadify %}">Upload new file</a><br />
+	<a href="{% url logout %}">logout</a>
+{% endblock %}

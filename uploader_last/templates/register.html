@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Register</title>
+{% endblock %}
+
+{% block content %}
+	<form id="signup_form" action="{% url register %}" method="POST" >
+		{% csrf_token %}
+		<label>email</label>
+		<input type="text" name="email" />
+		<label>password</label>
+		<input type="password" name="password1" />
+		<label>Confirm password</label>
+		<input type="password" name="password2" />
+		<input type="submit" id="send" class="default" value="Register" />
+	</form>
+	{% if message %}
+		<label style="color:red;">{{ message }}</label>
+	{% endif %}
+	<a href="{% url login %}">login</a>
+{% endblock %}

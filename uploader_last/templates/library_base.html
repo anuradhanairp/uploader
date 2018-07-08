@@ -1,0 +1,82 @@
+{% load i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		{% block title %}{% endblock %}
+		<title>{% trans "HighlightCam" %}</title>
+		<link rel="stylesheet" href="/site_media/css/reset.css" />
+		<link rel="stylesheet" href="/site_media/css/text.css" />
+		<link rel="stylesheet" href="/site_media/css/960.css" />
+		<link rel="stylesheet" href="/site_media/css/style.css" />
+		<script type="text/javascript" src="/site_media/js/jquery-1.7.2.min.js"></script>
+		{% block extrahead %} {% endblock %}
+	</head>
+	<body>
+	<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+		{% block header %}
+			<div id="header">
+				<div class="container_16">
+					<div class="grid_8"><img src="/site_media/images/highlightCam.png" alt="HighlightCam" /></div>
+					<div class="grid_8 top_menu">
+						<!-- <div class="fb">
+						    <div class="img">
+							    <div id="fb-root"></div>
+							    <fb:login-button autologoutlink='true' scope='email'></fb:login-button>
+							    <span id="login"></span>
+						    </div>
+						</div> -->
+						{% trans "Hello" %} <a href="#">{{ username }}</a> | <a href="{% url logout %}">{% trans "Logout" %}</a>
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+		{% block navigation %}
+			<div id="navbar">
+				<div class="container_16 ">
+					<ul>
+					<li><a href="#" class="clips {% block clips %}{% endblock %}">{% trans "My Clips" %}</a></li>
+					<li><a href="/library/" class="movies {% block movies %}{% endblock %}">{% trans "My Movies" %}</a></li>
+					<li><a href="/feed/" class="feeds {% block feeds %}{% endblock %}">{% trans "My Feeds" %}</a></li>
+					</ul>
+				</div>
+			</div>
+		{% endblock %}
+		{% block content %}{% endblock %}
+		{% block footer %}
+			<div class="container_16">
+				<div class="grid_16">
+					<div id="footer">
+						<div class=" grid_6  copyright"><a href="#"><img src="/site_media/images/logo.png" /></a><br />
+							<p>{% trans "Copyright &copy; 2012 HighlightCam Inc." %}</p>
+						</div>
+						<div class=" footer-links">
+							<div class="gird_2 menu">
+								<ul>
+								<li><a href="#">{% trans "About" %}</a></li>
+								<li><a href="#">{% trans "Contact" %}</a></li>
+								<li><a href="#">{% trans "Press" %}</a></li>
+								</ul>
+							</div>
+							<div class="grid_2 menu">
+								<ul>
+								<li><a href="#">{% trans "Forum" %}</a></li>
+								<li><a href="#">{% trans "Support" %}</a></li>
+								<li><a href="#">{% trans "FAQ" %}</a></li>
+								</ul>
+							</div>
+							<div class="grid_5 communities">
+								<ul>
+								<li><a href="#"><img src="/site_media/images/icon-twitter.jpg" alt="" style="width:18px; margin:-0px 14px 0 10px;"/>{% trans "Follow @highlightcam" %}</a></li>
+								<li><a href="#"><img src="/site_media/images/icon-fb.jpg" alt="" style="width:18px;margin:0px 14px 0 10px;"/>{% trans "Join us on Facebook" %}</a></li>
+								<li><a href="#"><img src="/site_media/images/icon-news.jpg" alt="" style="width:18px;margin:0px 14px 0 10px;"/>{% trans "Subscribe to our newsletter" %}</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+	</body>
+</html>

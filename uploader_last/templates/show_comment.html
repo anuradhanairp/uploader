@@ -1,0 +1,37 @@
+{% if action == 'show' %}
+  {% for comment in comments %}
+    {% if forloop.counter > current and  forloop.counter < next %}
+      <div class="container-left">
+        <div class="comments-pic comment-pic-margin">
+          <img src="/site_media/images/global-profilepic-default.png" alt=""/>
+        </div>
+        <div class="feed_comment">
+          <p class="comment-name">Michelle Williams</p>
+          <div class="comments">
+            {{ comment }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endfor %}
+  <!-- <a name="hide" href="#" onclick="see_more(this,'{#{ uuid }#}', 'hide'); return false;">Hide</a> -->
+{% else %}
+  {% for comment in comments %}
+    {% if forloop.counter <= 6 %}
+      <div class="container-left">
+        <div class="comments-pic comment-pic-margin">
+          <img src="/site_media/images/global-profilepic-default.png" alt=""/>
+        </div>
+        <div class="feed_comment">
+          <p class="comment-name">Michelle Williams</p>
+          <div class="comments">
+            {{ comment }}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      {{ break }}
+    {% endif %}
+  {% endfor %}
+  <a name="show" href="#" onclick="see_more(this,'{{ uuid }}', 'show'); return false;">Show more</a>
+{% endif %}

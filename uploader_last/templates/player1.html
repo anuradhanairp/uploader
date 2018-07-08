@@ -1,0 +1,209 @@
+{% extends "library_base.html" %}
+{% load library_tags %}
+{% load i18n %}
+
+{% block title %}
+  <title>{% trans "HighlightCam" %}</title>
+{% endblock %}
+
+{% block extrahead %}
+
+<script type='text/javascript' src='/site_media/js/jwplayer.js'></script>
+<script type="text/javascript" src="/site_media/js/highlightSocial.js"></script> 
+
+<div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '407011216011933', // App ID
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+      var uuid = '{{ uuid }}' 
+      $(".comment_textbox").keyup(function(event){  
+        if(event.keyCode == 13){
+          // FB.api('/434264856596891/comments', 'post', { message : 'test comment' });
+          var comment = $(this).val();
+          $(this).val('');
+          var obj = this;
+          var uuid = $(this).attr('uuid');
+          $.ajax({ 
+              url:'/postcomment/',
+              type:'POST',
+              data:{comment:comment,uuid:uuid},
+              success: function(msg){  
+               
+                $(obj).parents('.container-left-sub').after('<div class="container-left"><div class="comments-pic comment-pic-margin"><img src="/site_media/images/global-profilepic-default.png" alt=""  /></div><div class="comment"><span class="comment-name">Michelle Williams</span>'+comment + '<span class="time">6 hrs ago</span><div class="divider"></div></div> <div class="clear"></div></div>');
+
+                highlightFriendComment(comment);
+
+               postCommentToFeed();
+              },
+             
+          });
+
+        }
+
+      });
+});
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+<div id="container">
+  <div class="container_16 mrg-btm">
+    <div class="grid_16 message_box"> 
+    All the movies you created, including the ones you made with your smartphone 
+    </div>
+    <div class="middle_bar_movie_detail">
+      <div class="grid_13 grid_13_box brd-grid_13_box2">
+        <div class="title">{{ title }}</div>
+        <div class="video">
+          <div id='mediaplayer'></div>
+        </div>
+        <script type="text/javascript">
+        jwplayer('mediaplayer').setup({
+        'flashplayer': '/site_media/images/player.swf',
+        'id': 'playerID',
+        'width': '676',
+        'height': '386',
+        'controlbar':'bottom',
+        'file': '{{ video }}',
+        'image': '{{ thumbnail }}'
+        });
+        </script>
+       
+        <a href="#" onclick="highlightLike('{{uuid}}');">Like</a><br/>
+        <a href="#" onclick="highlightFriendShare('{{uuid}}','{{ thumbnail }}');">Share</a><br/>
+          <!-- <div class="share">Share
+            <a name="fb_share" type="button" href="http://www.facebook.com/sharer.php" onclick="highlightFriendShare({{uuid}});"></a>
+            <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+          </div> -->
+
+         <!--  <div class="like">Like -->
+            <!-- <iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2F50.116.27.85%2Fvideo%2F{{ uuid }}%2F&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe> -->
+
+            <!-- <fb:like href="http://50.116.27.85/" send="false" layout="button_count" width="450" show_faces="true"></fb:like> -->
+
+
+            <!-- <div id="fb-root"></div>
+            <div class="fb-like" data-href="http://50.116.27.85/video/{{ uuid }}/" data-send="false" data-width="450" data-show-faces="true"></div>
+          </div> -->
+
+          <div class="views">
+            <span class="fnt">{{ views }}</span>
+            <img src="/site_media/images/view.png" alt="" style="margin:-2px 0 0 8px;" />
+          </div>
+        </div>
+      </div>
+      <div class="clear"></div>
+      <div class="grid_13 ">
+      <div class="grid_13_box container-left border_none_web_library" >
+        <div class="comments-heading brd-box2">
+          <span class="fnt">
+          <fb:comments-count href="http://50.116.27.85/video/{{ uuid }}/"></fb:comments-count></span>COMMENTS
+        </div>
+        <div class="container-left-sub">
+          <div class="comments-pic">
+            <img src="/site_media/images/global-profilepic-default.png" alt="" />
+          </div>
+          <div class="comment-box" >
+            
+            <div class="comment-box_comment_icon"><img src="/site_media/images/icon-comment.png" alt="" />
+            </div>
+            <form action="" method="">
+            <textarea name="" cols="" rows="" class="comment_textbox" uuid="{{ uuid }}"></textarea>
+            </form> 
+          </div>
+        </div>
+
+
+          {% for comment in comments %}
+          <div class="container-left">
+            <div class="comments-pic comment-pic-margin">
+              <img src="/site_media/images/global-profilepic-default.png" alt=""  />
+            </div>
+            <div class="comment">
+              <span class="comment-name">Michelle Williams</span>
+              {{comment}}
+              <span class="time">6 hrs ago</span>
+              <div class="divider"></div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="grid_13_box  container-right margin-grid_13 border_none_web_library">
+          <div class="likes-heading brd-box2">
+          <span class="fnt" id="likes"></span>LIKES</div>
+          <div class="container-right-sub">
+            <div class="comments-pic comment-pic-margin">
+              <img src="/site_media/images/global-profilepic-default.png" alt=""/>
+            </div> 
+            <div class="commentor-name">Michelle Williams</div>
+            <div class="commentor-time">6 hrs ago</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <div class="side_bar_moviedetail">
+      <div>Suggestions</div>
+      <div class="divider"></div>
+      {% for movie in movies %}
+      <div class="grid_4 grid_4_box brd-grid_4_box2">
+        <div class="title">
+          <a href="#">
+            {% blocktrans with movie.title|strip_title as title %}
+              {{ title }}
+            {% endblocktrans %}
+          </a>
+        </div>
+        <div class="video">
+          <!-- <div id='sidebar_mediaplayer{{forloop.counter0}}'></div> -->
+          <a href="/video/{{ movie.uuid }}" onclick="" >
+            <img src="{{ movie.thumbnail_url }}" width="206px" height="116px" />
+          </a>
+        </div>
+        <div class="date">22 aug, 2011</div>
+      </div> 
+      {% endfor %} 
+    </div> 
+  <div class="clear"></div> 
+</div>
+   
+<script type="text/<span class="><!--mce:0--></script>
+<script>
+  
+$.getJSON("https://graph.facebook.com/?ids=http://50.116.27.85/video/{{ uuid }}/&callback=?", function(response) {
+    var likes = response["http://50.116.27.85/video/{{ uuid }}/"].shares;
+    $('#likes').html(likes);
+    // Go do something with likes here
+});
+
+</script>
+
+{% endblock %}

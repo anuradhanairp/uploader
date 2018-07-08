@@ -1,0 +1,155 @@
+#login{ width:300px;border:2px solid #000;background:#fff; min-height:240px;-webkit-box-shadow: 0px 2px 0px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0px 1px 0px 2px rgba(0, 0, 0, .1); font-size:14px;color:#565656;padding:20px;font-family:Arial;
+}
+#login h2 {
+	margin-bottom:1em;
+}
+.postaddr {
+	float:left;
+	width:250px;
+	margin-top:40px;
+	text-align:left;
+	line-height:1.7em;
+}
+#login label {
+	display:block;
+	width:250px;
+	float:left;
+	margin:0px 0px 0px 0px;
+	padding:0px;
+	color:#333;
+	font-size:13px;
+}
+#login input {
+	width:284px;
+	color:#333;
+	float:left;
+	margin:5px 5px 5px 0px;
+	border:1px solid #ccc;
+	padding:4px;
+	-webkit-box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, .2);
+	box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, .1);
+	height:24px;
+}
+#login a {
+	width:250px;
+	color:#2691bc;
+	text-align:right;
+	float:right;
+	font-family:Arial;
+	font-size:12px;	
+}
+#login {
+	position: absolute;
+	top:12%;
+	left:51%;
+	z-index:1500;
+}
+#login .indicator {
+	position: absolute;
+	top: -5.4%;
+	left: 90%;
+}
+#login checkbox{ 
+}
+#errormessage {
+	margin-bottom:10px;
+	color:#F63;
+}
+#login .submitbutton {
+	background:url(/site_media/images/login-red.jpg) no-repeat;
+	padding:10px;
+	text-decoration:none;
+	width:291px;
+	height:43px;
+	cursor:pointer;
+	border:none;
+}
+#login .submitbutton:hover {	
+}
+
+/*font styling*/
+@font-face {
+	font-family: 'FontinItalic';
+	src: url('/site_media/fonts/fontin-italic-webfont.eot');
+	src: url('/site_media/fonts/fontin-italic-webfont.eot?iefix') format('eot'),  url('/site_media/fonts/fontin-italic-webfont.woff') format('woff'),  url('/site_media/fonts/fontin-italic-webfont.ttf') format('truetype'),  url('/site_media/fonts/fontin-italic-webfont.svg#webfontmXTPiUNH') format('svg');
+	font-weight: normal;
+}
+#register { 
+	width:300px;
+	border:2px solid #000;
+	background:#fff; min-height:280px;
+	-webkit-box-shadow: 0px 2px 0px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0px 1px 0px 2px rgba(0, 0, 0, .1); 
+	font-size:14px;color:#565656;
+	padding:20px;font-family:Arial;
+	position: absolute;
+	top:12%;
+	left:56%;
+	z-index:1500;
+}
+#register .indicator {
+	position: absolute;
+	top: -4.6%;
+	left: 86%;
+}
+#register h2 {
+	margin-bottom:1em;
+}
+.postaddr {F
+	float:left;
+	width:250px;
+	margin-top:40px;
+	text-align:left;
+	line-height:1.7em;
+}
+#register label {
+	display:block;
+	width:250px;
+	float:left;
+	margin:0px 0px 0px 0px;
+	padding:0px;
+	color:#333;
+	font-size:13px;
+}
+#register input {
+	width:284px;
+	color:#333;
+	float:left;
+	margin:5px 5px 15px 0px;
+	border:1px solid #ccc;
+	padding:4px;
+	-webkit-box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, .2);
+	box-shadow: 1px 0px 2px 0px rgba(0, 0, 0, .1);
+	height:24px;
+}
+#register a {
+	width:250px;
+	color:#2691bc;
+	text-align:right;
+	float:right;
+	margin:-30px 0 0 0;
+	font-family:Arial;
+	font-size:12px;	
+}
+#register checkbox{ 
+}
+#errormessage {
+	margin-bottom:10px;
+	color:#F63;
+}
+#register .submitbutton {
+	background:url(/site_media/images/register.jpg) no-repeat;
+	padding:10px;
+	text-decoration:none;
+	width:291px;
+	height:43px;
+	cursor:pointer;
+	border:none;
+}
+#regsiter .submitbutton:hover {	
+}
+.error{
+	color: red !important;
+	font-style:italic;
+}

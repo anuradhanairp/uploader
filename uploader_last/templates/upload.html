@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>S3 Upload</title>
+{% endblock %}
+
+{% block content %}
+	<form id="upload_form" action="{% url upload %}" method="POST" enctype="multipart/form-data" accept-charset="utf-8" >
+		{% csrf_token %}
+		<p id="video_title" >
+			{{ form.title.errors }}
+			<label>Title</label>
+			{{ form.title }}
+		</p>
+		<p id="browse_field" >
+			{{ form.file.errors }}
+			<label>File</label>
+			{{ form.file }}
+		</p>
+		<input type="submit" id="send" class="default" value="UPLOAD" />
+	</form>
+	{% if message %}
+		{{ message }}
+	{% endif %}
+	{#% for photo in photos %#}
+		<!-- <img src={#{ photo.url }#} style="width:200px;height:200px;"/> -->
+	{#% endfor %#}
+{% endblock %}

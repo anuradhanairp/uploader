@@ -1,0 +1,28 @@
+# Environment-specific files #
+##############################
+local_settings.py
+
+# Some compiled formats #
+#########################
+*.pyc
+
+# IDE project directories #
+###########################
+.idea/
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# PPKs and PEM Files #
+######################
+*.ppk
+*.pem
+
+
+# Other #
+#########
+*.bak

@@ -1,0 +1,61 @@
+<!-- <script type="text/javascript" src="/site_media/js/jquery-1.7.2.min.js"></script> -->
+<script type="text/javascript" src="/site_media/js/fileuploader.js"></script>
+<link rel="stylesheet" href="/site_media/css/fileuploader.css" />
+<!-- <link rel="stylesheet" href="/site_media/js/upload.css" /> -->
+    <script src="/site_media/js/swfupload.js"></script>
+    <script src="/site_media/js/jquery-asyncUpload-0.1.js"></script>
+<script type="text/javascript">
+// function createUploader(){ 
+// 	var uploader = new qq.FileUploader({
+// 	    // pass the dom node (ex. $(selector)[0] for jQuery users)
+// 	    element: document.getElementById('file-uploader'),
+// 	    // path to server-side upload script
+// 	    action: '/uploader/',
+// 	    allowedExtensions: ['3gp', 'asf', 'asx', 'avi', 'flv', 'm4v', 'mkv', 'mov', 'mp4', 'mpg', 'ogv', 'rm', 'wmv', 'bmp', 'gif', 'jpg', 'jpeg', 'png', 'tga', 'tif', 'yuv'],
+// 	});
+// }
+// window.onload = createUploader; 
+</script>
+
+<div id="file-uploader">
+    <noscript>
+        <p>Please enable JavaScript to use file uploader.</p>
+    </noscript>
+</div>
+
+
+
+<script>        
+        function createUploader(){
+if(jQuery.browser.msie)
+{
+// jQuery('#file-uploader').html('<input type="file" id="fileupload" name="fileupload"/>');
+jQuery('#file-uploader').html('<div id="upload_msie" class="add-slide-sub shadow">Image</div>');
+// jQuery(function() {
+//         jQuery("#file-uploader").makeAsyncUploader({
+//             upload_url: "/uploader/",
+//             flash_url: '/site_media/js/swfupload.swf',
+//             button_image_url: '/site_media/images/blankButton.png'
+//         });
+//     });
+                        var uploader = new qq.FileUploaderBasic({
+                            // pass the dom node (ex. $(selector)[0] for jQuery users)
+                            element: document.getElementById('upload_msie'),
+                            // path to server-side upload script
+                            action: '/uploader/',
+                            allowedExtensions: ['3gp', 'asf', 'asx', 'avi', 'flv', 'm4v', 'mkv', 'mov', 'mp4', 'mpg', 'ogv', 'rm', 'wmv', 'bmp', 'gif', 'jpg', 'jpeg', 'png', 'tga', 'tif', 'yuv'],
+                        });
+                        console.log(uploader);
+}
+else{            
+            var uploader = new qq.FileUploader({
+                element: document.getElementById('file-uploader'),
+                action: '/uploader/',
+                debug: true,
+	    allowedExtensions: ['3gp', 'asf', 'asx', 'avi', 'flv', 'm4v', 'mkv', 'mov', 'mp4', 'mpg', 'ogv', 'rm', 'wmv', 'bmp', 'gif', 'jpg', 'jpeg', 'png', 'tga', 'tif', 'yuv'],
+            });
+}           
+        }
+        
+        window.onload = createUploader;     
+    </script>

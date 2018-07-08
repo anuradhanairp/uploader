@@ -1,0 +1,128 @@
+{% extends "library_base.html" %}
+{% load library_tags %}
+{% load i18n %}
+
+{% block title %}
+  <title>{% trans "HighlightCam" %}</title>
+{% endblock %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="/site_media/css/reset.css" />
+<link rel="stylesheet" href="/site_media/css/text.css" />
+<link rel="stylesheet" href="/site_media/css/960.css" />
+<link rel="stylesheet" href="/site_media/css/style.css" />
+{% endblock %}
+
+{% block extraheaderfb %}
+<img src="/site_media/images/fb.png" alt="" style="margin-right:30px;"/>
+<div id="fb-root"></div>
+<fb:login-button autologoutlink='true' scope='email'></fb:login-button>
+<span id="login"></span>
+{% endblock %}
+
+<!-- <div id="header">
+  <div class="container_16">
+    <div class="grid_8"><img src="images/highlightCam.png" alt="HighlightCam" /></div>
+    <div class="grid_8 top_menu"><img src="highlightCam 2/images/fb.png" alt="" style="margin-right:30px;"/>Hello <a href="#">john.smith</a> | <a href="#">Logout</a></div>
+  </div>
+</div>
+<div id="navbar">
+  <div class="container_16">
+    <ul>
+      <li><a href="#" class="clips">My Clips</a></li>
+      <li><a href="#" class="movies">My Movies</a></li>
+      <li><a href="#" class="feeds">My Feeds</a></li>
+    </ul>
+  </div>
+</div> -->
+{% block content %}
+<div id="container">
+  <div class="container_16 mrg-btm">
+    <div class="grid_16 message_box"> 
+      All the movies you created, including the ones you made with your smartphone 
+    </div>
+    <div class="middle_bar_movie_detail">
+      <div class="grid_13 grid_13_box brd-grid_13_box2">
+        <div class="title">At the game</div>
+        <div class="video"><img src="/site_media/images/library-movie-detail.jpg" /></div>
+        <div class="desc"><div class="share"> Share</div> 
+          <div class="like"> <img src="/site_media/images/like.png" alt="" style="margin:-2px 0 0 8px;"/> Like</div>
+          <div class="views"><span class="fnt">723</span><img src="/site_media/images/view.png" alt="" style="margin:-2px 0 0 8px;" /></div>
+        </div>
+        <div class="comments-heading brd-box2"> <span class="fnt">12 </span>COMMENTS</div>  
+        <div class="container-right"> 
+          <div class="likes-heading brd-box2"><span class="fnt">25</span> LIKES</div>
+        </div>
+        <div class="container-left">  
+          <div class="comments-pic"><img src="/site_media/images/comments_image.jpg" alt="" /></div>
+          <div class="comment-box">Add Comment</div>
+        </div>
+        <div class="container-left">  
+          <div class="comments-pic comment-pic-margin"><img src="/site_media/images/comments_image.jpg" alt=""  /></div>
+          <div class="comment"><span class="comment-name">Michelle Williams </span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <span class="time">6 hrs ago</span> <div class="divider"></div>
+          </div>
+          <div class="clear"></div>
+        </div>      
+        <div class="container-left">
+          <div class="comments-pic comment-pic-margin"><img src="/site_media/images/comments_image.jpg" alt=""  /></div>
+          <div class="comment"><span class="comment-name">Michelle Williams </span> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. <span class="time">6 hrs ago</span> 
+            <div class="divider"></div>
+          </div>
+        </div>
+      </div>  
+    </div>
+    <div class="side_bar">
+      <div class="grid_4 grid_4_box brd-grid_4_box2">
+        <div class="title">Playing Voleyball</div>
+        <div class="video"><img src="/site_media/images/video_thumb_3.jpg" /></div>
+        <div class="date">22 aug, 2011</div>
+      </div>
+      <div class="grid_4 grid_4_box brd-grid_4_box2">
+        <div class="title">Playing Voleyball</div>
+        <div class="video"><img src="/site_media/images/video_thumb_3.jpg" /></div>
+        <div class="date">22 aug, 2011</div>
+      </div>
+      <div class="grid_4 grid_4_box brd-grid_4_box2">
+        <div class="title">Playing Voleyball</div>
+        <div class="video"><img src="/site_media/images/video_thumb_3.jpg" /></div>
+        <div class="date">22 aug, 2011</div>
+      </div>
+  </div>
+  </div>
+</div>
+{% endblock %}
+<!--  <div class="clear"></div>
+<div class="container_16">
+  <div class="grid_16">
+    <div id="footer">
+      <div class=" grid_6  copyright"><a href="#"><img src="images/logo.png" /></a><br />
+        <p>Copyright &copy; 2012 HighlightCam Inc.</p>
+      </div>
+      <div class=" footer-links">
+        <div class=" grid_2 menu">
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div class=" grid_2 menu">
+          <ul>
+            <li><a href="#">Forum</a></li>
+            <li><a href="#">Support</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="grid_5 communities">
+          <ul>
+            <li><a href="#"><img src="images/icon-twitter.jpg" alt="" style="width:18px; margin:-0px 14px 0 10px;"/>Follow @highlightcam</a></li>
+            <li><a href="#"><img src="images/icon-fb.jpg" alt="" style="width:18px;margin:0px 14px 0 10px;"/>Join us on Facebook</a></li>
+            <li><a href="#"><img src="images/icon-news.jpg" alt="" style="width:18px;margin:0px 14px 0 10px;"/>Subscribe to our newsletter</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html> -->

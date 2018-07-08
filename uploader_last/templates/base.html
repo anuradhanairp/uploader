@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    {% block title %}{% endblock %}
+    
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    {% block extrahead %} {% endblock %}
+
+</head>
+<body {% block body_tags %}{% endblock %}>
+    
+    {% block content %}{% endblock %}
+</body>
+</html>

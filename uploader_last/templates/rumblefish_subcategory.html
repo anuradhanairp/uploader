@@ -1,0 +1,18 @@
+<ul>
+	{% for key, value in subcategory.items %}
+	<li>
+		<a class="occasion_subcategory" onclick="arrowdown(this)" href="#">{{ key }}</a>
+		<ul style="display:none;">
+			{% for i in value %}
+			<li><a href="#" onclick="getplaylist({{ i.1 }})">{{ i.0 }}</a></li>
+			{% endfor %}
+		</ul>
+	</li>
+	{% endfor %}
+</ul>
+<script type="text/javascript">
+
+$(".occasion_subcategory").click(function(){
+	$($(this)[0]).siblings().toggle();
+});
+</script>

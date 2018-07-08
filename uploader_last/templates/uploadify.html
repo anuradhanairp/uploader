@@ -1,0 +1,29 @@
+<script type="text/javascript" src="/site_media/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/site_media/js/swfobject/swfobject.js"></script>
+<script type="text/javascript" src="/site_media/js/uploadify/jquery.uploadify.js"></script>
+<script type="text/javascript" src="/site_media/js/jquery.cookie.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#file_upload').uploadify({
+        'swf'       : '/site_media/js/uploadify/uploadify.swf',
+        // 'uploader'  : '/site_media/js/uploadify/uploadify.swf',
+        'uploader'    : '/uploader/',
+        'cancelImg' : '/site_media/js/cancel.png',
+        'folder'    : '/site_media/upload',
+        'auto'      : true,
+        'multi'     : true,
+        'fileExt'   : '*.*',
+        'fileDesc'  : 'Upload Files',
+        'queueID'   : 'file_upload_queue',
+        'removeCompleted': false,
+        'formData'  : {'session_id' : $.cookie("sessionid")}
+    });
+});
+</script>
+
+<h2>Upload</h2>
+<div id="file_upload_queue"></div>
+<input id="file_upload" type="file" name="Filedata" /><br />
+<a href="{% url library %}">Go to library</a><br />
+<a href="{% url render %}">Create your movie</a><br />
+<a href="{% url logout %}">logout</a>

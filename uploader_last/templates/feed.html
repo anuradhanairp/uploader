@@ -1,0 +1,65 @@
+<html>
+<head>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.js"></script>
+  <script type='text/javascript' src='/site_media/js/jwplayer.js'></script>
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      
+      var uuid = '{{ uuid }}'
+      
+      $(".comment").keyup(function(event){
+          
+        if(event.keyCode == 13){
+          var comment = $(this).val();
+          var obj = this;
+
+          var uuid = $(this).attr('uuid');
+          $.ajax({
+            
+              url:'/postcomment/',
+              
+              type:'POST',
+              
+              data:{comment:comment,uuid:uuid},
+
+              success: function(msg){
+                $(obj).parent('.videodetails').find('.comments').prepend(comment + '<br />');
+                 
+              },
+          });
+
+          }
+        });
+    });
+  </script>
+</head>
+<body>
+  {% csrf_token %}
+  {% for movie in movies %}
+    <div class="videodetails">
+      <div class="video"><div id='mediaplayer{{forloop.counter0}}'></div></div>
+      <script type="text/javascript">
+        jwplayer('mediaplayer{{forloop.counter0}}').setup({
+          'flashplayer': '/site_media/images/player.swf',
+          'id': 'playerID',
+          'width': '200',
+          'height': '200',
+          'file': '{{ movie.source_url }}',
+          'image': '{{ movie.thumbnail_url }}'
+        });
+      </script>
+      <br />
+  
+        <input type="text" name="comment" class="comment" uuid="{{movie.uuid}}"> 
+        <br /> 
+        <div class="comments">
+         {% for comment in movie.comments %}
+            {{ comment }}
+            <br/ >
+          {% endfor %}
+        </div>
+    </div>
+  {% endfor %}
+</body>
+</html>

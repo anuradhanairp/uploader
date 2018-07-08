@@ -1,0 +1,233 @@
+{% extends "library_base.html" %}
+{% load library_tags %}
+{% load i18n %}
+
+{% block title %}
+  <title>{% trans "HighlightCam" %}</title>
+{% endblock %}
+
+
+{% block extrahead %}
+<script src="/site_media/js/modernizr-transitions.js"></script>
+<script src="/site_media/js/jquery.masonry.min.js"></script>
+<script type='text/javascript' src='/site_media/js/jwplayer.js'></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+     var uuid = '{{ uuid }}';  
+     $(".comment").keydown(function(event){        
+       if(event.keyCode == 13){
+         var comment = $(this).val();
+         $(this).val('');
+         var obj = this;
+         var uuid = $(this).attr('uuid');
+         $.ajax({  
+             url:'/postcomment/',  
+             type:'POST',  
+             data:{comment:comment,uuid:uuid},
+             success: function(msg){
+               $(obj).parents('.container-left-sub').after('<div class="container-left"><div class="comments-pic comment-pic-margin"><img src="/site_media/images/global-profilepic-default.png" alt=""/></div><div class="feed_comment"><p class="comment-name">Michelle Williams</p><div class="comments">'+comment+ '</div></div></div>');
+               $('#container').masonry( 'reload' );
+             },
+         });
+         }
+       });
+
+     show_comment_box = function(uuid){
+      var identifier = "#" + uuid;
+      $(identifier).css('display','block');
+      $('#container').masonry( 'reload' );
+     }
+
+     share_clip = function(uuid){
+      // var url = '/' + uuid + '/share/'
+      console.log("share clip");
+      $.ajax({
+        url:'/share/',
+        type:'POST',
+        data:{uuid:uuid},
+        success: function(msg){
+          alert(msg);
+        }
+      });
+     }
+
+     see_more=function(obj, uuid, action){
+        // console.log(obj);
+        // ev.preventDefault();
+        // $($(obj).siblings(".container-left_hidden")).toggle(500);
+        // $('#container').masonry( 'reload' );
+        // var obj = this;
+        console.log($(obj).siblings('.container-left').length);
+        console.log(obj);
+        var current = $(obj).siblings('.container-left').length
+        var url = '/' + uuid + '/comment/';
+        $.ajax({
+        url:url,
+        type:'POST',
+        data:{'action':action, 'current':current},
+        success: function(msg){
+          console.log($(obj).parent());
+          if ($(obj).attr('name') == 'show') {
+            // $(obj).parent().append(msg);
+            $(msg).insertBefore($(obj));
+            // $(obj).remove();
+          } else {
+            $(obj).siblings('.container-left').remove();
+            $(obj).parent().append(msg);
+            $(obj).remove();
+          }
+          $('#container').masonry( 'reload' );
+        }
+      });
+      }
+
+   });
+</script>
+{% endblock %}
+{% block feeds %}selected{% endblock %}
+{% block content %}
+<div class="container_16 mrg-btm container_top_margin">
+<div id="container">
+{% csrf_token %}
+{% for movie in movies %}
+  <div class="item feed_col1 brd_feed_col0_box ">
+    <div class="feed_heading">
+      <div class="feed_title">{{ movie.title }}
+        <div class="feed_name">by Steve Smith</div> 
+    <!-- <div class="feed_video">
+      <a href="/video/{{ movie.uuid }}" onclick="" >
+        <img src="{{ movie.thumbnail_url }}" style="width: 298px; height:auto;"/>
+      </a>
+    </div> -->
+        <div class="feed_views"><img src="/site_media/images/feed_view.png" alt="" style="margin:0px 0 0 0px;" /><span class="feed_fnt">{{movie.views}}</span></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+
+    <div class="feed_video">
+      <div id='mediaplayer{{forloop.counter0}}'>
+        <script type="text/javascript">
+          // jwplayer('mediaplayer{{forloop.counter0}}').setup({
+          //   'flashplayer': '/site_media/images/player.swf',
+          //   'id': 'playerID',
+          //   'width': '290',
+          //   'height': '150',
+          //   'controlbar':'none',
+          //   'file': '{{ movie.source_url }}',
+          //   'image': '{{ movie.thumbnail_url }}'
+          // });
+        </script>
+        <a href="/video/{{ movie.uuid }}/"><img width="290px" src="{{ movie.thumbnail_url }}" /></a>
+      </div>
+    </div>
+   <div class="clear"></div>
+
+
+
+
+  <div class="feed_desc"> 
+    <div class="feed_share feed_fnt" onclick="share_clip('{{ movie.uuid }}');return false;" style="cursor:pointer;"> Share</div>
+    <div class="feed_comment_icon">
+      <img src="/site_media/images/feed_comment.png" onclick="{% if movie.total_comments %}{% else %}show_comment_box('{{ movie.uuid }}');return false{% endif %}" alt"" style="margin:0 4px 0 0; cursor:{% if movie.total_comments %}{% else %}pointer{% endif %}"/>{{ movie.total_comments }}
+    </div>
+    <div class="feed_like"> 
+      <img src="/site_media/images/like.png" alt="" style="margin:-4px 0 0 0;"/> 48
+    </div>
+  </div>
+
+
+
+
+
+
+   <!-- <div class="feed_desc">
+     <div class="feed_right">
+        <div class="views">
+          <span class="feed_fnt">Share
+          </span>
+          <!-- <a name="fb_share" type="button" href="http://www.facebook.com/sharer.php"></a> -->
+          <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript">
+          </script>
+          <!--<img src="/site_media/images/feed_view.png" alt="" style="margin:0px 0 0 0px;" />
+          <span class="feed_fnt">{{movie.views}}</span>
+          <span "feed_like">
+            <img src="/site_media/images/feed_like.png" alt="" style="margin:-4px 2px 0 -2px;"/> 15
+          </span>
+        </div>
+      </div>
+    </div> -->
+
+
+
+    <div class="feed_comments">
+      <div class="container-left">
+        
+        <div id="{{ movie.uuid }}" class="container-left-sub" style="display:{% if movie.total_comments %}{% else %}none{% endif %};">
+          <div class="comments-pic comment-pic-margin"><img src="/site_media/images/global-profilepic-default.png" alt=""  /></div>
+          <div class="feed_comment-box">
+            <form action="" method=""><textarea placeholder="Add a comment..." name="" cols="" rows="" class="comment" uuid="{{movie.uuid}}"></textarea></form>
+          </div>
+        </div>
+        {% for comment in movie.comments %}
+        {% if forloop.counter <= 6 %}
+        <div class="container-left">
+          <div class="comments-pic comment-pic-margin">
+            <img src="/site_media/images/global-profilepic-default.png" alt=""/>
+          </div>
+          <div class="feed_comment">
+            <p class="comment-name">Michelle Williams</p>
+            <div class="comments">
+              {{ comment }}
+            </div>
+          </div>
+        </div>
+          <!-- <div class="container-left_hidden">
+            <div class="comments-pic comment-pic-margin">
+              <img src="/site_media/images/global-profilepic-default.png" alt=""/>
+            </div>
+            <div class="feed_comment">
+              <p class="comment-name">Michelle Williams</p>
+              <div class="comments">
+                {#{ comment }#}
+              </div>
+            </div>
+          </div> -->
+        {% endif %}
+        {% endfor %}
+        {% if movie.total_comments > 6 %}
+          <a onclick="see_more(this,'{{ movie.uuid }}','show'); return false;" href="#" name="show" class="see_more" style="margin-left: 4px; font-weight: bold; text-decoration: none; color: rgb(102, 102, 102);">..........................  See More  ..........................</a>
+        {% endif %}
+      </div>
+    </div>
+    
+
+
+
+
+
+  </div>
+  {% endfor %}
+</div>
+<div class="clear"></div>
+<script>
+$(function(){
+  $('#container').masonry({
+    // options
+    itemSelector : '.item',
+    columnWidth :0
+  });
+});
+
+var $container = $('#container');
+$container.imagesLoaded(function(){
+  $container.masonry({
+    itemSelector : '.item',
+    columnWidth : 0
+  });
+});
+
+
+</script> 
+</div>
+{% endblock %}
+

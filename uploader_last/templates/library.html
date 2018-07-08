@@ -1,0 +1,162 @@
+{% extends "library_base.html" %}
+{% load library_tags %}
+{% load i18n %}
+
+{% block title %}
+	<title>{% trans "HighlightCam" %}</title>
+{% endblock %}
+
+{% block extrahead %}
+	<script type="text/javascript">
+		$(document).ready(function(){
+			check_for_class = function(){
+				var uuid_value=$("#uuid").val();
+				if (uuid_value) {
+					if($("."+uuid_value)[0]){
+						// Do nothing...
+					} else {
+						var new_grid = '<div class="grid_4 grid_4_box processing_div">'+
+											'<div class="title"></div>'+
+											'<div class="video">'+
+												'<div class="progress_parent"><div class="library-progress"><div class="library-progress-bar"></div></div></div>'+
+											'</div>'+
+											'<div class="date" style="color:#2691bc;">Starting Upload...</div>'+
+										'</div>';
+						$(new_grid).insertAfter("#player");
+					}
+				}
+
+			};
+			check_for_update = function(){
+				console.log("checking for library update...");
+				$.ajax({
+					url: "/gallery_test/",
+				}).done(function(data){
+					var x = $.parseJSON(data);
+					// console.log(x);
+					if (x.length > $('.library_movie').length) {
+						var i = x.length - $('.library_movie').length;
+						while (i > 0){
+							obj = x[i-1];
+							if (obj.title.length > 20) {
+					            var title = obj.title.slice(0, 20);
+					        } else {
+					        	var title = obj.title
+					        }
+							var new_grid = '<div class="grid_4 grid_4_box library_movie">'+
+											'<div class="title"><a style="color:#2691bc;" href="">'+title+'</a></div>'+
+											'<div class="video">'+
+											'<input type="hidden" class="processing '+obj.uuid+'" value=\'{"uuid": \"'+obj.uuid+'\", "url" : \"'+obj.source_url+'\", "title" : \"'+obj.title+'\"}\' \\>'+
+											'<img class="thumb_img" src="'+obj.thumbnail_url+'" width="206px" height="116px" />'+
+											'<div class="progress_parent"><div class="library-progress"><div class="library-progress-bar"></div></div></div>'+
+											'</div>'+
+											'<div class="date" style="color:#2691bc;">processing</div>'+
+											'</div>';
+							$(".processing_div").remove();
+							$(new_grid).insertAfter("#player");
+							i--;
+						}
+					}
+				});
+				$(".processing").each( function(index) {
+					console.log($(this).val());
+					var video_detail = $.parseJSON($(this).val());
+					var parent_el = $(this).parent();
+					$.ajax({
+						url: "/predict_time/",
+						data: {uuid: video_detail.uuid, url: video_detail.url, title: video_detail.title}
+					}).done(function(data){
+						var obj = $.parseJSON(data);
+						if (obj.completed == 'true'){
+							var video = '<a href="#" onclick="play_minimovie(\''+obj.url+'\', \''+obj.title+'\', \''+obj.thumb+'\'); return false;" ><img src='+obj.thumb+' width="206px" height="116px" /></a>'
+							$(parent_el).empty();
+							$(parent_el).append(video);
+							// console.log($(parent_el).next());
+							$($(parent_el).next()).text(obj.date);
+							$($($(parent_el).prev()).find('a')).css('color', '#666666');
+							$($(parent_el).next()).css('color', '#666666');
+							$('.title > a').hover(function() {
+								$(this).css('color', '#2691bc');
+							},
+							function(){
+								$(this).css('color', '#666666');
+							});
+						} else {
+							$($($(parent_el).prev()).find('a')).css('color', '#2691bc');
+							$($(parent_el).next()).css('color', '#2691bc');
+							var total = Math.round(obj.time_left + obj.time_covered);
+							var progress = Math.round(obj.time_covered / total * 100);
+							$(parent_el).find('.library-progress-bar').css('width', progress+"%");
+							$(parent_el).find('.thumb_img').attr('src', obj.thumbnail_url);
+							// console.log(obj.thumbnail_url);
+							// $(parent_el).append(video);
+						}
+					});
+				});
+			};
+
+
+			check_for_update();
+			check_for_class();
+			setInterval(check_for_update, 30000);
+		});
+	</script>
+	<script type="text/javascript" src="/site_media/js/highlight.js"></script>
+	<script type="text/javascript" src="/site_media/js/jquery.expander.js"></script>
+{% endblock %}
+
+{% block movies %}selected{% endblock %}
+
+{% block content %}
+	<input id="uuid" type="hidden" value={{uuid}}></input>
+	<div id="container">
+	  <div class="container_16 mrg-btm">
+	    <div class="grid_16 message_box">{% trans "All the movies you created, including the ones you made with your smartphone" %}</div>
+	    <div class="side_bar"><div class="grid_4 grid_4_box"> <a href="{% url render %}"></a></div></div>
+	    <div id="player" class="grid_8 grid_8_box" style="display:none;">
+        </div>
+	    <!-- {#% for upload in uploads %#}
+	    	<div class="grid_4 grid_4_box">
+	    		<div class="title">{#{ upload.title|strip_title }#}</div>
+	    		<div class="video"><a href="#" onclick="play_video({#{ upload.id }#}); return false;" ><img src="{#{ upload.thumbnail }#}" /></a></div>
+	    		<div class="date">{#{ upload.uploaded|date:"d b, Y" }#}</div>
+	    	</div>
+	    {#% endfor %#} -->
+	    {% for movie in movies %}
+	    	<div class="grid_4 grid_4_box library_movie {{ movie.uuid }}">
+	    		<div class="title">
+	    			<a href="#">
+	    				{% blocktrans with movie.title|strip_title as title %}
+		    				{{ title }}
+	    				{% endblocktrans %}
+	    			</a>
+	    		</div>
+	    		<div class="video">
+	    			{% ifequal movie.status 0 %}
+
+		    			<a href="/video/{{ movie.uuid }}" onclick="" >
+
+
+		    				<img src="{{ movie.thumbnail_url }}" width="206px" height="116px" />
+		    			</a>
+	    			{% else %}
+	    				<input type="hidden" class="processing" value='{"uuid": "{{ movie.uuid }}", "url" : "{{ movie.source_url }}", "title" : "{{ movie.title }}"}' \>
+	    				<img class="thumb_img" src="{{ movie.thumbnail_url }}" width="206px" height="116px" />
+	    				<div class="progress_parent"><div class="library-progress"><div class="library-progress-bar"></div></div></div>
+	    				<!-- <label>processing...</label> -->
+		    		{% endifequal %}	
+	    		</div>
+	    		<div class="date">
+	    			{% ifequal movie.status 0 %}
+	    				{% blocktrans with movie.uploaded|date:"d b, Y" as date %}
+			    			{{ date }}
+			    		{% endblocktrans %}
+	    			{% else %}
+		    			{% trans "uploading" %}
+	    			{% endifequal %}
+	    		</div>
+	    	</div>
+	    {% endfor %}
+	  </div>
+	 <div class="clear"></div>
+ {% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+	<title>Library</title>
+{% endblock %}
+
+{% block content %}
+	{% for upload in uploads %}
+		{{ upload.title }}<br />
+		<img src={{ upload.thumbnail }} /><br />
+		<!-- {{ upload.url }}<br /> -->
+		{{ upload.uploaded|date:"d b, Y" }}<br />
+	{% endfor %}
+{% endblock %}

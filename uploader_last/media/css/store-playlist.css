@@ -1,0 +1,218 @@
+*{
+	/* Universal page reset */
+	margin:0;
+	padding:0;
+}
+
+#holder{
+	/* The unordered list that is to be split into pages */
+
+	width:400px;
+	overflow:hidden;
+	position:relative;
+	height:263px!important;
+}
+
+.swControls{
+	position:relative;
+	left: 35%;
+}
+
+a.swShowPage{
+
+	/* The links that initiate the page slide */
+
+	background-color:#E0E0E0;
+	float:left;
+	height:10px;
+	margin:4px 3px;
+	text-indent:-9999px;
+	width:10px;
+	-moz-border-radius:7px;
+	-webkit-border-radius:7px;
+	border-radius:7px;
+}
+
+a.swShowPage:hover,
+a.swShowPage.active{
+	background-color:#2993dd;
+	-moz-box-shadow:0 0 7px #2993DD inset;
+	box-shadow:0 0 7px #2993DD inset;
+}
+
+#holder {
+	font-size:12px;
+	border-bottom:double 1px #2691BB;
+	margin:0;
+	padding:0;
+}
+
+#holder li{
+	font-size:12px;
+	margin:0;
+	padding:0;
+}
+
+#track a, #track a:visited {
+	color:#0196e3;
+	text-decoration:none;
+	outline:none;
+}
+
+#track a:hover{
+	text-decoration:underline;
+}
+
+#track a img{
+	border:none;
+}
+
+.next {
+	height: 33px;
+	width: 40px;
+}
+
+.next img, .previous img {
+	margin-top: 2px !important;
+}
+
+.previous {
+	height: 33px;
+	width: 40px;
+	float: right;
+}
+
+
+#track{
+	width:460px; 
+	float:left; 
+	border:1px solid #b1b1b1;
+	padding:0px;
+	-webkit-box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, .2);
+	box-shadow: 0px 1px 0px 1px rgba(0, 0, 0, .1);
+	position: relative;
+	margin-left: -12px;
+	background-color: white;
+}
+
+#track ul{
+	width:460px; 
+	float:left; 
+}
+
+#track p{
+	color:#8c8c8c!important;
+	font-weight: normal;
+}
+
+#track ul a{ 
+	float:left;  
+	color:#000; 
+	margin-right:10px; 
+	list-style:none;
+}
+
+#track ul li{
+	width:215px; 
+	float:left; 
+	height:35px; 
+	background:#fff; 
+	color:#000; 
+	margin-right:10px; 
+	list-style:none; 
+	border-bottom:dotted 1px #000; 
+	border-top:none;
+	padding:0px 0 8px 5px;
+}
+
+#track ul li a{
+	background:#fff url(../images/icon.jpg) no-repeat 0 8px ;
+	height:43px; 
+	width:18px;
+	margin-right:6px;
+}
+
+#track ul li:hover{
+	float:left; 
+	height:35px; 
+	background:#2691bb;
+	color:#fff!important; 
+	margin-right:10px; 
+	list-style:none;
+
+	width:215px;
+	list-style:none; 
+	border-bottom:dotted 1px #000; 
+	padding:0px 0 8px 5px;
+}
+
+#track ul li:hover span, #track ul li:hover p {
+	color: white!important;
+}
+
+#track ul li:hover a{
+	background:#2691bb url(../images/icon-hover.jpg) no-repeat 0 8px ;
+}
+
+#track ul li span{
+	position:relative;
+	top: 20%;
+	color: #2993DD;
+	font-weight: bold !important;
+	display: inline-block;
+	line-height:100%;
+}
+
+#track ul li.selected{
+	float:left; 
+	height:35px; 
+	background:#2691bb url(../images/tick.jpg) no-repeat 190px 11px ;
+	color:#fff!important; 
+	margin-right:10px; 
+	list-style:none;
+
+	width:215px;
+	list-style:none; 
+	border-bottom:dotted 1px #000; 
+	padding:0px 0 8px 5px;
+}
+#track ul li.selected a{
+	background:#2691bb url(../images/icon-hover.jpg) no-repeat 0 8px ;
+}
+#track ul li.selected span, #track ul li.selected p {
+	color: white!important;
+}
+
+.bg-a{
+	padding:10px 0 0 30px;
+	color:#808080!important;
+	text-decoration: underline!important;
+	font-size:13px;
+}
+
+.btn{
+	background:#2691bb;
+	float:right!important;
+	padding:0; 
+	text-align:center;
+	color:#fff!important;	
+	text-shadow: 1px 0px 0px #000; 
+	text-decoration:none;
+	font-size:13px;
+	font-weight:bold;
+	height: 25px;
+	line-height: 25px;
+	margin: 8px 5px 5px 5px;
+	width:65px;
+}
+
+.back_to_category{
+	height:40px;
+	line-height:40px;
+	border-bottom: 1px dotted;
+	background:#fff url(../images/arrow.jpg) no-repeat 0 50% ;
+}
+
+.swSlider {
+	background-color:white;
+}

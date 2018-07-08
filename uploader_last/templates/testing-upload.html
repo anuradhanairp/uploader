@@ -1,0 +1,23 @@
+<head>
+    <!-- Adjust the file paths as needed for your project -->
+        <link rel="stylesheet" href="/site_media/css/reset.css" />
+        <link rel="stylesheet" href="/site_media/css/text.css" />
+        <link rel="stylesheet" href="/site_media/css/960.css" />
+        <link rel="stylesheet" href="/site_media/css/style.css" />
+    <link rel="stylesheet" href="/site_media/js/upload.css" />
+	<script type="text/javascript" src="/site_media/js/jquery-1.7.2.min.js"></script> 
+    <script src="/site_media/js/swfupload.js"></script>
+    <script src="/site_media/js/jquery-asyncUpload-0.1.js"></script>
+</head>
+
+<input type="file" id="yourID" name="yourID" />
+
+<script>
+    $(function() {
+        $("#yourID").makeAsyncUploader({
+            upload_url: "/testing_upload/", // Important! This isn't a directory, it's a HANDLER such as an ASP.NET MVC action method, or a PHP file, or a Classic ASP file, or an ASP.NET .ASHX handler. The handler should save the file to disk (or database).
+            flash_url: '/site_media/js/swfupload.swf',
+            button_image_url: '/site_media/js/blankButton.png'
+        });
+    });
+</script>
